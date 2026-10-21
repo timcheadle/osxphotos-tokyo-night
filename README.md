@@ -1,6 +1,6 @@
 # Tokyo Night for osxphotos
 
-A Tokyo Night color theme for [osxphotos](https://github.com/RhetTbull/osxphotos), made to match the [Tokyo Night iTerm2 theme](https://github.com/rojadesign/iTerm2-Tokyo-Night-Color-Theme) I use.
+A Tokyo Night color theme for [osxphotos](https://github.com/RhetTbull/osxphotos), made to match the [Tokyo Night iTerm2 theme](https://github.com/rojadesign/iTerm2-Tokyo-Night-Color-Theme).
 
 osxphotos is an amazing command-line tool for backing up your Apple Photos library. It exports your photos and videos with their metadata (albums, keywords, people, places), so your library isn't locked inside Apple's app.
 
