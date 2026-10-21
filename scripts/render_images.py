@@ -8,7 +8,6 @@ rich_theme_manager), passing the repo root:
 import re, sys
 from pathlib import Path
 from rich.console import Console
-from rich.progress import BarColumn, Progress, TextColumn
 from rich.terminal_theme import TerminalTheme
 from rich_theme_manager import Theme, ThemeManager
 
@@ -27,38 +26,44 @@ term = TerminalTheme(
 )
 
 def console():
-    return Console(theme=theme, record=True, width=104, force_terminal=True,
+    return Console(theme=theme, record=True, width=120, force_terminal=True,
                    color_system="truecolor", highlight=False, file=open("/dev/null", "w"))
 
-# 1. Sample osxphotos session, using the same markup osxphotos emits.
+# 1. Sample `osxphotos export --verbose` session. Messages use the same markup
+# osxphotos emits (see osxphotos/cli/export.py); paths and photos are made up.
+import random, uuid as uuidlib
+from osxphotos.cli.rich_progress import rich_progress
+
+rng = random.Random(1)  # fixed seed so re-renders don't churn the SVG
+random_uuid = lambda: str(uuidlib.UUID(int=rng.getrandbits(128), version=4)).upper()
 c = console()
-c.print("[color]$ osxphotos export ~/Pictures/Export --verbose --update")
-c.print("Loaded options from file [filepath]~/.config/osxphotos/export.toml[/]")
-c.print("exiftool path: [filepath]/opt/homebrew/bin/exiftool[/]")
-c.print("[color]Exporting [num]4[/] photos to [filepath]~/Pictures/Export[/]...")
-rows = [
-    ("IMG_4821.HEIC", "9A1F3C2E-6B7D-4E21-A0C4-5D8E9F01B2A3", "2026-09-14 08:12:03", "-0700"),
-    ("IMG_4822.HEIC", "C47D02B9-1E3A-4F55-9B6C-7A2D3E4F5061", "2026-09-14 08:13:47", "-0700"),
-    ("DSC_0193.JPG",  "5E8B7A61-3C2F-4D9E-8A1B-0F6C2D3E4A57", "2026-10-02 17:41:22", "+0900"),
-    ("IMG_5030.MOV",  "F2A9C1D4-7B6E-4A38-B5D2-9C0E1F2A3B4C", "2026-10-05 19:05:10", "+0900"),
-]
-for i, (fn, uuid, t, tz) in enumerate(rows):
-    c.print(f"Exporting [filename]{fn}[/] ([uuid]{uuid}[/]) taken [time]{t}[/] [tz]{tz}[/]")
-    if i == 2:
-        c.print(f"  Skipping [no_change]{fn}[/], already up to date")
-    else:
-        c.print(f"  Exported [change]{fn}[/] to [filepath]~/Pictures/Export/2026/{fn}[/]")
-c.print("[warning]Warning running exiftool: IMG_5030.MOV has no GPS data[/]")
-c.print("[error]Error: could not export DSC_0193.xmp: file is locked[/]")
-c.print("Processed: [count]4[/] photos, exported: [count]3[/], skipped: [count]1[/], errors: [count]1[/]")
-c.print("Elapsed time: [time]0:00:04[/]")
-p = Progress(TextColumn("{task.description}"), BarColumn(bar_width=40),
-             TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
-             TextColumn("[progress.elapsed]{task.fields[elapsed]}"),
-             TextColumn("[progress.remaining]{task.fields[remaining]}"), console=c)
-p.add_task("Exporting", total=100, completed=100, elapsed="0:00:04", remaining="0:00:00")
-p.add_task("Updating ", total=100, completed=62, elapsed="0:00:02", remaining="0:00:01")
-c.print(p.get_renderable())
+c.print("[color]$ osxphotos export /Volumes/Backup/Photos --load-config ~/.osxphotos/backup.toml --verbose")
+c.print("Loaded options from file [filepath]/Users/me/.osxphotos/backup.toml")
+c.print("osxphotos version: 0.77.2")
+c.print("exiftool path: [filepath]/opt/homebrew/bin/exiftool")
+c.print("Using last opened Photos library: /Users/me/Pictures/Photos Library.photoslibrary")
+c.print("[warning]Warning: export database '/Users/me/.osxphotos/export.db' is in a different "
+        "directory than export destination '/Volumes/Backup/Photos'")
+c.print("Using osxphotos export database: version [num]11.1[/] located at "
+        "[filepath]/Users/me/.osxphotos/export.db")
+c.print("Processing database [filepath]/Users/me/Pictures/Photos Library.photoslibrary/database/Photos.sqlite[/]")
+c.print("Photos database version: [num]5001[/], [num]11.1[/].")
+for what in ("persons in photos", "albums", "keywords", "photo details", "EXIF details"):
+    c.print(f"Processing {what}.")
+c.print("Done processing details from Photos library.")
+c.print("Exporting [num]6[/num] photos to [filepath]/Volumes/Backup/Photos[/]...")
+names = ["IMG_0101.HEIC", "IMG_0102.HEIC", "IMG_0103.MOV", "IMG_0104.HEIC", "IMG_0105.MOV", "IMG_0106.JPG"]
+for i, name in enumerate(names, 1):
+    ext = name.rsplit(".", 1)[1].lower()
+    c.print(f"Exporting [filename]{name}[/] ([filename]{random_uuid()}.{ext}[/]) ([count]{i}/{len(names)}[/])")
+progress = rich_progress(console=c, auto_refresh=False, get_time=lambda: 0.0)
+task = progress.add_task(f"Exporting [num]{len(names)}[/] photos", total=len(names))
+progress.update(task, completed=len(names))  # marks the task finished
+c.print(progress.get_renderable())
+c.print("Processed: [num]6[/] photos, exported: [num]2[/], updated: [num]0[/], skipped: [num]4[/], "
+        "updated EXIF data: [num]0[/], missing: [num]0[/], error: [num]0[/]")
+c.print("Elapsed time: [time]0:00:03")
+c.print("Wrote export report to [filepath]/Users/me/.osxphotos/reports/export-report.csv")
 c.save_svg(str(out / "screenshot.svg"), title="osxphotos — Tokyo Night", theme=term)
 
 # 2. The built-in `osxphotos theme --preview` table.
