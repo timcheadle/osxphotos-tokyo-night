@@ -7,6 +7,7 @@ rich_theme_manager), passing the repo root:
 """
 import re, sys
 from pathlib import Path
+from rich._export_format import CONSOLE_SVG_FORMAT
 from rich.console import Console
 from rich.terminal_theme import TerminalTheme
 from rich_theme_manager import Theme, ThemeManager
@@ -25,8 +26,23 @@ term = TerminalTheme(
      (0x7a,0xa2,0xf7),(0xbb,0x9a,0xf7),(0x7d,0xcf,0xff),(0xc0,0xca,0xf5)],
 )
 
+# Rich's SVG template pulls Fira Code from a CDN, which GitHub blocks inside
+# <img>. Use Input Mono Narrow (the font in the reference terminal) when the
+# viewer has it installed, without embedding it, and fall back to system fonts.
+FONT_FACES = "".join(
+    f'@font-face {{{{ font-family: "Terminal"; src: local("{name}"); font-weight: {weight}; }}}}\n'
+    for name, weight in [("InputMonoNarrow-Regular", 400), ("Input-Regular", 400),
+                         ("InputMonoNarrow-Bold", 700), ("Input-Bold", 700)]
+)
+SVG_FORMAT = re.sub(r"@font-face \{\{.*?\}\}\n", "", CONSOLE_SVG_FORMAT, flags=re.S)
+SVG_FORMAT = SVG_FORMAT.replace("<style>", "<style>\n" + FONT_FACES, 1).replace(
+    "font-family: Fira Code, monospace;",
+    "font-family: Terminal, \"Input Mono Narrow\", \"SF Mono\", Menlo, Consolas, monospace;")
+assert "Fira" not in SVG_FORMAT
+
+
 def console():
-    return Console(theme=theme, record=True, width=120, force_terminal=True,
+    return Console(theme=theme, record=True, width=100, force_terminal=True,
                    color_system="truecolor", highlight=False, file=open("/dev/null", "w"))
 
 # 1. Sample `osxphotos export --verbose` session. Messages use the same markup
@@ -60,17 +76,16 @@ progress = rich_progress(console=c, auto_refresh=False, get_time=lambda: 0.0)
 task = progress.add_task(f"Exporting [num]{len(names)}[/] photos", total=len(names))
 progress.update(task, completed=len(names))  # marks the task finished
 c.print(progress.get_renderable())
-c.print("Processed: [num]6[/] photos, exported: [num]2[/], updated: [num]0[/], skipped: [num]4[/], "
-        "updated EXIF data: [num]0[/], missing: [num]0[/], error: [num]0[/]")
+c.print("Processed: [num]6[/] photos, exported: [num]6[/], missing: [num]0[/], error: [num]0[/]")
 c.print("Elapsed time: [time]0:00:03")
 c.print("Wrote export report to [filepath]/Users/me/.osxphotos/reports/export-report.csv")
-c.save_svg(str(out / "screenshot.svg"), title="osxphotos — Tokyo Night", theme=term)
+c.save_svg(str(out / "screenshot.svg"), title="osxphotos — Tokyo Night", theme=term, code_format=SVG_FORMAT)
 
 # 2. The built-in `osxphotos theme --preview` table.
 c = console()
 
 ThemeManager.preview_theme(theme, show_path=False, console=c)
-c.save_svg(str(out / "preview.svg"), title="osxphotos theme --preview tokyonight", theme=term)
+c.save_svg(str(out / "preview.svg"), title="osxphotos theme --preview tokyonight", theme=term, code_format=SVG_FORMAT)
 
 # 3. Color swatches.
 for color in sorted(set(re.findall(r"#[0-9a-f]{6}", (repo / "tokyonight.theme").read_text()))):
