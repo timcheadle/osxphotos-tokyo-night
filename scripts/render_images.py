@@ -15,7 +15,7 @@ from rich_theme_manager import Theme, ThemeManager
 repo = Path(sys.argv[1])
 theme = Theme.read(str(repo / "tokyonight.theme"))
 out = repo / "images"
-(out / "swatches").mkdir(parents=True, exist_ok=True)
+out.mkdir(exist_ok=True)
 
 # Terminal colors from the Tokyo Night iTerm2 palette, so the "window" matches.
 term = TerminalTheme(
@@ -93,9 +93,4 @@ c = console()
 ThemeManager.preview_theme(theme, show_path=False, console=c)
 save_svg(c, "preview.svg", "osxphotos theme --preview tokyonight")
 
-# 3. Color swatches.
-for color in sorted(set(re.findall(r"#[0-9a-f]{6}", (repo / "tokyonight.theme").read_text()))):
-    (out / "swatches" / f"{color[1:]}.svg").write_text(
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14">'
-        f'<rect width="14" height="14" rx="3" fill="{color}" stroke="#565f89"/></svg>\n')
 print("done")
