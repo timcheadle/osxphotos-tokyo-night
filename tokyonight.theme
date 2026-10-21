@@ -1,0 +1,27 @@
+[metadata]
+name = tokyonight
+description = Tokyo Night theme
+tags = dark
+inherit = True
+
+[styles]
+bar.back = #3b4261
+bar.complete = #f7768e
+bar.finished = #9ece6a
+bar.pulse = #737aa2
+change = bold #f7768e
+color = #c0caf5
+count = #7dcfff
+error = bold #db4b4b
+filename = bold #bb9af7
+filepath = bold #9ece6a
+highlight = bold #1a1b26 on #f7768e
+no_change = bold #9ece6a
+num = bold #7dcfff
+progress.elapsed = #7dcfff
+progress.percentage = #f7768e
+progress.remaining = #7dcfff
+time = bold #7dcfff
+tz = bold #2ac3de
+uuid = #ff9e64
+warning = bold #e0af68
