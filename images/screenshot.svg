@@ -3,8 +3,6 @@
     <style>
 @font-face { font-family: "Terminal"; src: local("InputMonoNarrow-Regular"); font-weight: 400; }
 @font-face { font-family: "Terminal"; src: local("Input-Regular"); font-weight: 400; }
-@font-face { font-family: "Terminal"; src: local("InputMonoNarrow-Bold"); font-weight: 700; }
-@font-face { font-family: "Terminal"; src: local("Input-Bold"); font-weight: 700; }
 
 
         
@@ -22,10 +20,10 @@
     }
 
     .terminal-897391683-r1 { fill: #c0caf5 }
-.terminal-897391683-r2 { fill: #9ece6a;font-weight: bold }
-.terminal-897391683-r3 { fill: #e0af68;font-weight: bold }
-.terminal-897391683-r4 { fill: #7dcfff;font-weight: bold }
-.terminal-897391683-r5 { fill: #bb9af7;font-weight: bold }
+.terminal-897391683-r2 { fill: #9ece6a }
+.terminal-897391683-r3 { fill: #e0af68 }
+.terminal-897391683-r4 { fill: #7dcfff }
+.terminal-897391683-r5 { fill: #bb9af7 }
 .terminal-897391683-r6 { fill: #7dcfff }
 .terminal-897391683-r7 { fill: #9ece6a }
 .terminal-897391683-r8 { fill: #f7768e }

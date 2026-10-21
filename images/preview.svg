@@ -3,8 +3,6 @@
     <style>
 @font-face { font-family: "Terminal"; src: local("InputMonoNarrow-Regular"); font-weight: 400; }
 @font-face { font-family: "Terminal"; src: local("Input-Regular"); font-weight: 400; }
-@font-face { font-family: "Terminal"; src: local("InputMonoNarrow-Bold"); font-weight: 700; }
-@font-face { font-family: "Terminal"; src: local("Input-Bold"); font-weight: 700; }
 
 
         
@@ -23,26 +21,26 @@
 
     .terminal-2037368661-r1 { fill: #c0caf5;font-style: italic; }
 .terminal-2037368661-r2 { fill: #c0caf5 }
-.terminal-2037368661-r3 { fill: #c0caf5;font-weight: bold }
+.terminal-2037368661-r3 { fill: #c0caf5 }
 .terminal-2037368661-r4 { fill: #3b4261 }
 .terminal-2037368661-r5 { fill: #f7768e }
 .terminal-2037368661-r6 { fill: #9ece6a }
 .terminal-2037368661-r7 { fill: #737aa2 }
-.terminal-2037368661-r8 { fill: #f7768e;font-weight: bold }
+.terminal-2037368661-r8 { fill: #f7768e }
 .terminal-2037368661-r9 { fill: #7dcfff }
 .terminal-2037368661-r10 { fill: #db4b4b }
-.terminal-2037368661-r11 { fill: #db4b4b;font-weight: bold }
+.terminal-2037368661-r11 { fill: #db4b4b }
 .terminal-2037368661-r12 { fill: #bb9af7 }
-.terminal-2037368661-r13 { fill: #bb9af7;font-weight: bold }
-.terminal-2037368661-r14 { fill: #9ece6a;font-weight: bold }
+.terminal-2037368661-r13 { fill: #bb9af7 }
+.terminal-2037368661-r14 { fill: #9ece6a }
 .terminal-2037368661-r15 { fill: #1a1b26 }
-.terminal-2037368661-r16 { fill: #1a1b26;font-weight: bold }
-.terminal-2037368661-r17 { fill: #7dcfff;font-weight: bold }
+.terminal-2037368661-r16 { fill: #1a1b26 }
+.terminal-2037368661-r17 { fill: #7dcfff }
 .terminal-2037368661-r18 { fill: #2ac3de }
-.terminal-2037368661-r19 { fill: #2ac3de;font-weight: bold }
+.terminal-2037368661-r19 { fill: #2ac3de }
 .terminal-2037368661-r20 { fill: #ff9e64 }
 .terminal-2037368661-r21 { fill: #e0af68 }
-.terminal-2037368661-r22 { fill: #e0af68;font-weight: bold }
+.terminal-2037368661-r22 { fill: #e0af68 }
     </style>
 
     <defs>

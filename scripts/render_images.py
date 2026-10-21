@@ -31,14 +31,20 @@ term = TerminalTheme(
 # viewer has it installed, without embedding it, and fall back to system fonts.
 FONT_FACES = "".join(
     f'@font-face {{{{ font-family: "Terminal"; src: local("{name}"); font-weight: {weight}; }}}}\n'
-    for name, weight in [("InputMonoNarrow-Regular", 400), ("Input-Regular", 400),
-                         ("InputMonoNarrow-Bold", 700), ("Input-Bold", 700)]
+    for name, weight in [("InputMonoNarrow-Regular", 400), ("Input-Regular", 400)]
 )
 SVG_FORMAT = re.sub(r"@font-face \{\{.*?\}\}\n", "", CONSOLE_SVG_FORMAT, flags=re.S)
 SVG_FORMAT = SVG_FORMAT.replace("<style>", "<style>\n" + FONT_FACES, 1).replace(
     "font-family: Fira Code, monospace;",
     "font-family: Terminal, \"Input Mono Narrow\", \"SF Mono\", Menlo, Consolas, monospace;")
 assert "Fira" not in SVG_FORMAT
+
+
+def save_svg(c, name, title):
+    """Save the recording, with bold dropped so text renders at regular weight."""
+    svg = c.export_svg(title=title, theme=term, code_format=SVG_FORMAT)
+    svg = re.sub(r"(\.terminal-\d+-r\d+ \{[^}]*?);?font-weight: bold", r"\1", svg)
+    (out / name).write_text(svg)
 
 
 def console():
@@ -79,13 +85,13 @@ c.print(progress.get_renderable())
 c.print("Processed: [num]6[/] photos, exported: [num]6[/], missing: [num]0[/], error: [num]0[/]")
 c.print("Elapsed time: [time]0:00:03")
 c.print("Wrote export report to [filepath]/Users/me/.osxphotos/reports/export-report.csv")
-c.save_svg(str(out / "screenshot.svg"), title="osxphotos — Tokyo Night", theme=term, code_format=SVG_FORMAT)
+save_svg(c, "screenshot.svg", "osxphotos — Tokyo Night")
 
 # 2. The built-in `osxphotos theme --preview` table.
 c = console()
 
 ThemeManager.preview_theme(theme, show_path=False, console=c)
-c.save_svg(str(out / "preview.svg"), title="osxphotos theme --preview tokyonight", theme=term, code_format=SVG_FORMAT)
+save_svg(c, "preview.svg", "osxphotos theme --preview tokyonight")
 
 # 3. Color swatches.
 for color in sorted(set(re.findall(r"#[0-9a-f]{6}", (repo / "tokyonight.theme").read_text()))):
