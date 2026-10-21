@@ -75,14 +75,6 @@ To go back to the automatic dark/light behavior, delete the clone:
 osxphotos theme --delete default
 ```
 
-## Regenerating the images
-
-The images are rendered from `tokyonight.theme` with Rich, the library osxphotos uses for its output. After changing the theme, run this with the Python that osxphotos is installed into:
-
-```sh
-$(brew --prefix osxphotos)/libexec/bin/python scripts/render_images.py .
-```
-
 ## Credits
 
 - **Colors:** adapted from [iTerm2 Tokyo Night Color Theme](https://github.com/rojadesign/iTerm2-Tokyo-Night-Color-Theme) by [rojadesign](https://github.com/rojadesign), itself based on the original [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme) theme by [enkia](https://github.com/enkia).
