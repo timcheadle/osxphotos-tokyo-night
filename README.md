@@ -51,6 +51,15 @@ To go back to the automatic dark/light behavior, delete the clone:
 osxphotos theme --delete default
 ```
 
+## Using it in a saved export config
+
+If you run `osxphotos export --load-config`, you can set the theme in your `.toml` config file instead:
+
+```toml
+[export]
+theme = "tokyonight"
+```
+
 ## Credits
 
 - **Colors:** adapted from [iTerm2 Tokyo Night Color Theme](https://github.com/rojadesign/iTerm2-Tokyo-Night-Color-Theme) by [rojadesign](https://github.com/rojadesign), itself based on the original [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme) theme by [enkia](https://github.com/enkia).
