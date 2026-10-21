@@ -4,8 +4,6 @@ A [Tokyo Night](https://github.com/rojadesign/iTerm2-Tokyo-Night-Color-Theme) co
 
 ![osxphotos export output using the Tokyo Night theme](images/screenshot.svg)
 
-*`osxphotos export --verbose` output rendered with this theme. Paths and photos are placeholders; the messages and colors match real osxphotos output.*
-
 ## Palette
 
 | | Style | Color | Used for |
